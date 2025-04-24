@@ -1,0 +1,157 @@
+#!/bin/sh
+
+### ─── LAYOUT ─────────────────────────────────────────
+
+riverctl output-layout rivertile
+rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.625 &
+riverctl rule-add -app-id '*' float
+riverctl rule-add -title 'Zen Browser' no-float
+riverctl rule-add -app-id "*zed*" no-float
+riverctl rule-add -app-id "*ghostty*" no-float
+riverctl rule-add -app-id "*vesktop*" no-float
+
+
+### ─── Startup ──────────────────────────────────────────────
+
+#shuffle background image
+riverctl spawn "
+    trap 'exit 0' TERM INT
+    while true; do
+      idx=\$(shuf -i1-\$(ls -1 \$HOME/Pictures/Background/background*.jpg | wc -l) -n1)
+      pkill -x swaybg 2>/dev/null
+      sleep 0.1
+      swaybg -i \"\$HOME/Pictures/Background/background\${idx}.jpg\" &
+      echo \$idx > \$HOME/.cache/swaybg
+      sleep 300
+    done"
+riverctl spawn "mako &"
+riverctl spawn "wl-paste --watch clipman store &"
+riverctl spawn "zen-browser"
+
+### ─── INPUT ───────────────────────────────────────────────────
+
+# Cursor & key‑repeat
+riverctl default-attach-mode bottom
+riverctl focus-follows-cursor always
+riverctl hide-cursor timeout 10000 # 10 Seconds
+#riverctl hide-cursor when-typing enabled
+riverctl set-cursor-warp on-focus-change
+riverctl xcursor-theme Breeze_Light 30
+riverctl set-repeat 30 300
+
+# Touch‑pad / pointer tweaks
+riverctl input "pointer-*" tap enabled
+riverctl input "pointer-*" tap-button-map lrm
+riverctl input "pointer-*" natural-scroll enabled
+
+# riverctl on-input "*" xkb_layout gb  # Uncomment if needed
+
+### ─── KEYBINDINGS ──────────────────────────────────────────
+
+riverctl map normal Super F toggle-float
+#cycle through background in order
+riverctl map normal Super B spawn "
+    idx=\$( cat \"\$HOME/.cache/swaybg\" 2>/dev/null || echo 1 )
+    count=\$(ls -1 \$HOME/Pictures/Background/background*.jpg | wc -l)
+    next=\$(( (idx % count) + 1 ))
+    echo \$next > \$HOME/.cache/swaybg
+    pkill -x swaybg 2>/dev/null
+    sleep 0.1
+    swaybg -i \"\$HOME/Pictures/Background/background\${next}.jpg\" &"
+
+## ── Apps ─────────────────────────────────────
+# Toggle launcher-mode (top bar + bottom bar + fuzzel)
+riverctl map normal Super Space spawn "\
+    if pgrep -x fuzzel >/dev/null 2>&1; then
+        pkill -x fuzzel
+        pkill -x waybar
+    else
+        waybar -c ~/.config/waybar/top.json &
+        waybar -c ~/.config/waybar/bottom.json &
+        fuzzel
+        pkill -x waybar
+    fi"
+riverctl map normal Super T spawn ghostty
+riverctl map normal Super E spawn zeditor
+
+## ── Screenshot ──────────────────────────────
+riverctl map normal None Print spawn "sh -c 'grim \
+    -g \"\$(slurp -w 0)\" - | swappy -f -
+    -o ~/Pictures/screenshot-\$(date +%F_%H-%M-%S).png'"
+
+## ── Screen Recording ──────────────────────────
+# Full screen, no audio
+riverctl map normal Super M spawn "sh -c 'wf-recorder \
+    -f ~/Videos/recording_\$(date +%Y%m%d_%H%M%S).mp4'"
+# Selected area, no audio
+riverctl map normal Super+Shift M spawn "sh -c 'wf-recorder \
+    -g \"\$(slurp)\" -f ~/Videos/recording_\$(date +%Y%m%d_%H%M%S).mp4'"
+# Selected area with audio
+riverctl map normal Super R spawn "sh -c 'wf-recorder \
+    -g \"\$(slurp)\" -a alsa_output.pci-0000_04_00.6.analog-stereo.monitor
+    -f ~/Videos/recording-with-audio-\$(date +%F_%H-%M-%S).mp4'"
+# Stop recording
+riverctl map normal Super+Shift R spawn "pkill -INT wf-recorder"
+
+## ── Navigation ───────────────────────────────
+riverctl map normal Super Tab        focus-view next
+riverctl map normal Super+Shift Tab  focus-view previous
+
+## ── Layout / Movement ────────────────────────
+riverctl map normal Super+Shift J swap next
+riverctl map normal Super+Shift K swap previous
+
+## ── Window Actions ───────────────────────────
+riverctl map normal Super Escape close
+riverctl map normal Super Delete exit
+riverctl map normal Super Return toggle-fullscreen
+
+## ── Window Positioning ───────────────────────
+riverctl map normal Super H move left 100
+riverctl map normal Super J move down 100
+riverctl map normal Super K move up 100
+riverctl map normal Super L move right 100
+
+riverctl map normal Super+Alt H snap left
+riverctl map normal Super+Alt L snap right
+riverctl map normal Super+Alt J snap down
+riverctl map normal Super+Alt K snap up
+
+## ── Window Sizing (for 2880x1800 screen) ─────
+riverctl map normal Super U resize vertical -720
+riverctl map normal Super I resize vertical 450
+riverctl map normal Super O resize horizontal -450
+riverctl map normal Super P resize horizontal 720
+
+## ─── Audio ───────────────────────────────────────────────────────────────
+riverctl map normal None XF86AudioMute          spawn "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+riverctl map normal None XF86AudioLowerVolume   spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+riverctl map normal None XF86AudioRaiseVolume   spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+
+## ─── Brightness ─────────────────────────────────────────────────────────
+riverctl map normal None XF86MonBrightnessUp    spawn "brightnessctl set 5%+"
+riverctl map normal None XF86MonBrightnessDown  spawn "brightnessctl set 5%-"
+
+## ─── Media Playback ──────────────────────────────────────────────────────
+riverctl map normal None XF86AudioPlay          spawn "playerctl play-pause"
+riverctl map normal None XF86AudioNext          spawn "playerctl next"
+riverctl map normal None XF86AudioPrev          spawn "playerctl previous"
+riverctl map normal None XF86AudioStop          spawn "playerctl stop"
+
+## ─── Laptop Special Keys ─────────────────────────────────────────────────
+riverctl map normal None XF86ScreenSaver          spawn waylock
+riverctl map normal None XF86Display              spawn wlr-randr
+
+### ─── Lock screen & idle behavior ──────────────────────────────────────
+swayidle -w \
+    timeout 270 'brightnessctl set 10%' \
+    timeout 300 'swaylock -f -c 000000' \
+    timeout 600 'systemctl suspend' \
+    before-sleep 'swaylock -f' &
+
+# riveridle not yet part of official river package
+#riveridle \
+#  --lock-cmd='waylock -f' \
+#  --suspend-cmd='systemctl suspend' \
+#  --lock-timeout=300 \
+#  --suspend-timeout=600 &

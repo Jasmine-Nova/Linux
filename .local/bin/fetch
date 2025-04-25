@@ -17,7 +17,7 @@ echo -e "\
 \e[35mWM:            \e[0m $(ps -e | grep -E -m 1 "(river|sway|i3|dwm|bspwm|openbox|gnome|kde)" | awk '{print $4}' 2>/dev/null || echo ${XDG_SESSION_DESKTOP:-Unknown})
 \e[35mCursor:        \e[0m ${XCURSOR_THEME:-Default}${XCURSOR_SIZE:+ ($XCURSOR_SIZE px)}
 \e[35mTerminal:      \e[0m ${TERM:-Unknown}
-\e[35mTerminal Font: \e[0m ${term_font:-Unknown}
+\e[35mGhostty Font:  \e[0m ${term_font:-Unknown}
 \e[35mCPU:           \e[0m $(awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo 2>/dev/null | sed 's/^ *//' || echo "Unknown")
 \e[35mGPU:           \e[0m $(lspci | grep -E 'VGA|3D' 2>/dev/null | sed 's/^[0-9a-f:.]* //; s/VGA compatible controller: //; s/ (rev [0-9a-f]*)//; s/.*\[AMD\/ATI\] //' || echo "Unknown")
 \e[35mMemory:        \e[0m $(free -h 2>/dev/null | awk '/Mem:/ {print $3 " / " $2}' || echo "Unknown")

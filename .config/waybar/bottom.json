@@ -1,0 +1,34 @@
+{
+  "mode": "overlay",
+  "layer": "top",
+  "exclusive-zone": 0,
+  "position": "bottom",
+  "width": 1500,
+  "height": 100,
+  "margin-bottom": 20,
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "spacing": 4,
+  "modules-left": ["river/tags"],
+  "modules-center": ["river/window"],
+  "modules-right": ["custom/launcher"],
+
+  "river/tags": {
+    "num-tags": 5,
+    "format": "{icon}",
+    "format-icons": {
+      "focused": "",
+      "occupied": "",
+      "default": ""
+    },
+    "align": "center"
+  },
+  "river/window": {
+    "max-length": 60,
+    "align": "center"
+  },
+  "custom/launcher": {
+    "format": "",
+    "align": "center"
+  }
+}

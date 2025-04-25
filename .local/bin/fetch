@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Terminal Font detection (only for Ghostty, as a simple example)
+# Terminal Font detection for Ghostty only
 term_font="Unknown"
 [ "$TERM" = "xterm-ghostty" ] && [ -f "$HOME/.config/ghostty/config" ] && \
     term_font=$(grep "^font-family" "$HOME/.config/ghostty/config" | sed 's/.*= "\?\([^"]*\)"\?$/\1/') && \

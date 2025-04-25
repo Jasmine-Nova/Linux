@@ -9,7 +9,6 @@ term_font="Unknown"
 
 echo -e "\
 \e[35mOS:            \e[0m $(grep '^PRETTY_NAME=' /etc/os-release 2>/dev/null | cut -d= -f2- | tr -d '"' || echo "Unknown")
-\e[35mHost:          \e[0m $(hostname 2>/dev/null || echo "Unknown")
 \e[35mKernel:        \e[0m $(uname -r 2>/dev/null || echo "Unknown")
 \e[35mUptime:        \e[0m $(uptime -p 2>/dev/null | sed 's/up //' || echo "Unknown")
 \e[35mPackages:      \e[0m $(pacman -Qq 2>/dev/null | wc -l || echo "Unknown")

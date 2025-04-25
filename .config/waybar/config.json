@@ -1,0 +1,41 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 4,
+  "font-family": "Symbols Nerd Font, monospace",
+
+  "modules-left": ["cpu", "memory", "temperature", "network"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "battery", "tray"],
+
+  "cpu": {
+    "format": "CPU: {usage}%",
+    "interval": 2
+  },
+  "memory": {
+    "format": "RAM: {percentage}%",
+    "interval": 5
+  },
+  "temperature": {
+    "format": "Temp: {temperatureC}°C",
+    "critical-threshold": 80
+  },
+  "network": {
+    "format-wifi": "WiFi: {essid}",
+    "format-ethernet": "Eth: {ipaddr}",
+    "format-disconnected": "⚠ No NET"
+  },
+  "clock": {
+    "format": "{:%H:%M}",
+    "tooltip-format": "{:%A, %d %B %Y}"
+  },
+  "pulseaudio": {
+    "format": "Vol: {volume}%",
+    "format-muted": "🔇 Muted"
+  },
+  "battery": {
+    "format": "BAT: {capacity}%",
+    "format-charging": "⚡ {capacity}%"
+  }
+}

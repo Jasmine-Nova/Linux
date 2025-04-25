@@ -1,0 +1,35 @@
+/* ~/.config/waybar/style.css */
+
+/* ─── Base text & icons ─────────────────────────────────────────────────── */
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 25px;
+    color: #eeeeee;
+}
+
+/* ─── Bar window ─────────────────────────────────────────────────────────── */
+window#waybar {
+    background-color: rgba(30, 30, 30, 0.9);
+    border-radius: 20px;
+    padding: 30px 12px; /* top/bottom 6px, left/right 12px */
+    min-height: 90px; /* must match or be ≤ JSON "height" */
+    transition: background-color 0.2s;
+}
+network:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+/* smaller tooltip text */
+.tooltip {
+    font-size: 20px;
+    padding: 4px 8px;
+}
+
+/* ─── Modules ───────────────────────────────────────────────────────────── */
+label.module {
+    padding: 0 20px; /* breathing room around each label */
+}
+
+/* Optional hover effect on every module */
+label.module:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}

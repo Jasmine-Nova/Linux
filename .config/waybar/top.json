@@ -1,0 +1,64 @@
+{
+  "mode": "overlay",
+  "layer": "top",
+  "position": "top",
+  "exclusive-zone": 0,
+  "width": 1500,
+  "height": 100,
+  "margin-top": 20,
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "spacing": 4,
+  "modules-left": ["cpu", "memory", "temperature", "disk"],
+  "modules-center": ["clock"],
+  "modules-right": ["network", "pulseaudio", "upower", "tray"],
+
+  "cpu": {
+    "align": "center",
+    "format": "  {usage}%",
+    "tooltip-format": "User: {user}% ↷ Sys: {system}%",
+    "interval": 2
+  },
+  "memory": {
+    "align": "center",
+    "format": " {percentage}%",
+    "tooltip-format": "{used}MiB / {total}MiB ({percentage}%)"
+  },
+  "temperature": {
+    "align": "center",
+    "format": " {temperatureC}°C",
+    "critical-threshold": 80
+  },
+  "disk": {
+    "path": "/",
+    "interval": 60,
+    "format": " {output}"
+  },
+  "clock": {
+    "format": " {:%H:%M}",
+    "align": "center"
+  },
+  "network": {
+    "align": "center",
+    "format-wifi": " {signalStrength}%",
+    "format-ethernet": " {ipaddr}",
+    "format-disconnected": "⚠ No NET",
+    "tooltip": true,
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) • ↓ {bandwidthDownBytes}/s ↑ {bandwidthUpBytes}/s",
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "align": "center",
+    "format": "{icon} {volume}%",
+    "format-icons": ["", "", ""],
+    "format-muted": "🔇 Muted",
+    "tooltip-format": "{sinkName}: {volume}%{?muted, (muted)}",
+    "on-click": "pavucontrol"
+  },
+  "upower": {
+    "format": " {percentage}  ",
+    "tooltip": true,
+    "tooltip-format": "{time}"
+  }
+}

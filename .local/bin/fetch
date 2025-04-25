@@ -13,8 +13,8 @@ echo -e "\
 \e[35m Uptime:        \e[0m $(uptime -p 2>/dev/null | sed 's/up //' || echo "Unknown")
 \e[35m Packages:      \e[0m $(pacman -Qq 2>/dev/null | wc -l || echo "Unknown")
 \e[35m Shell:         \e[0m ${SHELL##*/}
-\e[35m Display:       \e[0m $([ -n "$WAYLAND_DISPLAY" ] && printf "%s (Wayland)" "$WAYLAND_DISPLAY" || [ -n "$DISPLAY" ] && printf "%s (X11)" "$DISPLAY" || printf "None")
-\e[35m WM:            \e[0m $(ps -e | grep -E -m 1 "(river|sway|i3|dwm|bspwm|openbox|gnome|kde)" | awk '{print $4}' 2>/dev/null || echo ${XDG_SESSION_DESKTOP:-Unknown})
+\e[35m Display:       \e[0m $( [ -n "$WAYLAND_DISPLAY" ] && printf '%s (Wayland)' "$WAYLAND_DISPLAY" || { [ -n "$DISPLAY" ] && printf '%s (X11)' "$DISPLAY"; } || printf 'None' )
+\e[35m WM:            \e[0m $(ps -e -o comm= | grep -E -m1 '^(river|sway|i3|dwm|bspwm|openbox|gnome-session|kwin)$' || echo "${XDG_SESSION_DESKTOP:-Unknown}")
 \e[35m Cursor:        \e[0m ${XCURSOR_THEME:-Default}${XCURSOR_SIZE:+ ($XCURSOR_SIZE px)}
 \e[35m Terminal:      \e[0m ${TERM:-Unknown}
 \e[35m Ghostty Font:  \e[0m ${term_font:-Unknown}

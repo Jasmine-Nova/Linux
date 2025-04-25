@@ -1,22 +1,32 @@
 #!/bin/sh
 
+# Battery info using sysfs
+battery_dir="/sys/class/power_supply/BAT0"
+if [ -d "$battery_dir" ]; then
+    battery_capacity=$(cat "$battery_dir/capacity" 2>/dev/null)
+    battery_status=$(cat "$battery_dir/status" 2>/dev/null)
+    battery_info="$battery_capacity% [$battery_status]"
+else
+    battery_info="No battery detected"
+fi
+
 echo -e "\
-\e[35mOS:          \e[0m $(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2- | tr -d '"')
-\e[35mHost:        \e[0m $(hostnamectl --static 2>/dev/null || hostname)
-\e[35mKernel:      \e[0m $(uname -r)
-\e[35mPackages:    \e[0m $(pacman -Qq 2>/dev/null | wc -l)
-\e[35mShell:       \e[0m $SHELL
-\e[35mDisplay:     \e[0m $DISPLAY$( [ -n "$WAYLAND_DISPLAY" ] && printf ' (Wayland: %s)' "$WAYLAND_DISPLAY")
-\e[35mWM:          \e[0m $XDG_SESSION_DESKTOP
-\e[35mCursor:      \e[0m ${XCURSOR_THEME:-}${XCURSOR_SIZE:+ ($XCURSOR_SIZE px)}
-\e[35mTerminal:    \e[0m $TERM
+\e[35mOS:            \e[0m $(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2- | tr -d '"')
+\e[35mHost:          \e[0m $(hostnamectl --static 2>/dev/null || hostname)
+\e[35mKernel:        \e[0m $(uname -r)
+\e[35mPackages:      \e[0m $(pacman -Qq 2>/dev/null | wc -l)
+\e[35mShell:         \e[0m $SHELL
+\e[35mDisplay:       \e[0m $DISPLAY$( [ -n "$WAYLAND_DISPLAY" ] && printf ' (Wayland: %s)' "$WAYLAND_DISPLAY")
+\e[35mWM:            \e[0m $XDG_SESSION_DESKTOP
+\e[35mCursor:        \e[0m ${XCURSOR_THEME:-}${XCURSOR_SIZE:+ ($XCURSOR_SIZE px)}
+\e[35mTerminal:      \e[0m $TERM
 \e[35mTerminal Font: \e[0m
-\e[35mCPU:         \e[0m $(awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo | sed 's/^ *//')
-\e[35mGPU:         \e[0m $(lspci | grep -E 'VGA|3D' | sed 's/^[0-9a-f:.]* //')
-\e[35mMemory:      \e[0m $(free -h | awk '/Mem:/  {print $3 " / " $2}')
-\e[35mSwap:        \e[0m $(free -h | awk '/Swap:/ {if ($2=="0") print "Disabled"; else print $3 " / " $2}')
-\e[35mDisk (/):    \e[0m $(df -h / | awk 'NR==2 {print $3 " / " $2 " (" $5 ")"}')
+\e[35mCPU:           \e[0m $(awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo | sed 's/^ *//')
+\e[35mGPU:           \e[0m $(lspci | grep -E 'VGA|3D' | sed 's/^[0-9a-f:.]* //')
+\e[35mMemory:        \e[0m $(free -h | awk '/Mem:/  {print $3 " / " $2}')
+\e[35mSwap:          \e[0m $(free -h | awk '/Swap:/ {if ($2=="0") print "Disabled"; else print $3 " / " $2}')
+\e[35mDisk (/):      \e[0m $(df -h / | awk 'NR==2 {print $3 " / " $2 " (" $5 ")"}')
 (ip -4 addr show "$(ip route | awk '/^default/ {print $5; exit}')" | awk '/inet/ {print $2}')
-\e[35mBattery:     \e[0m $(acpi -b | head -n1 | awk -F', ' '{print $2 " [" $3 "]"}')
-\e[35mLocale:      \e[0m $LANG
+\e[35mBattery:       \e[0m $battery_info
+\e[35mLocale:        \e[0m $LANG
 "

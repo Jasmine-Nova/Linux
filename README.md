@@ -81,7 +81,6 @@
 ### Fonts and Themes
 - `noto-fonts`: Google Noto fonts for broad language support.
 - `noto-fonts-emoji`: Emoji fonts from the Noto project.
-- `ttf-dejavu`: DejaVu font family for general use.
 - `ttf-jetbrains-mono`: Monospace font for developers by JetBrains.
 - `ttf-nerd-fonts-symbols`: Symbols and icons for Nerd Fonts.
 

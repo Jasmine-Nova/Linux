@@ -21,15 +21,20 @@ riverctl rule-add -app-id "*vesktop*" no-float
 #shuffle background image
 riverctl spawn "ram-alert.sh"
 riverctl spawn "
-    trap 'exit 0' TERM INT
+    files=(\"\$HOME/Pictures/Background/background\"*.jpg)
+    [[ \${#files[@]} -eq 0 ]] && { notify-send -u critical \"No backgrounds found\"; exit 1; }
+    trap \"exit 0\" TERM INT
+    swww-daemon
     while true; do
-      idx=\$(shuf -i1-\$(ls -1 \$HOME/Pictures/Background/background*.jpg | wc -l) -n1)
-      pkill -x swaybg 2>/dev/null
-      sleep 0.1
-      swaybg -i \"\$HOME/Pictures/Background/background\${idx}.jpg\" &
-      echo \$idx > \$HOME/.cache/swaybg
-      sleep 300
-    done"
+        idx=\$(( (RANDOM % \${#files[@]}) + 1 ))
+        echo \"\$idx\" > \"\$HOME/.cache/background\"
+        swww img \"\${files[idx-1]}\" \\
+            --transition-type=fade \\
+            --transition-fps=90 \\
+            --transition-duration=1.0
+        sleep 300 & wait
+    done
+"
 riverctl spawn "mako &"
 riverctl spawn "wl-paste --watch clipman store &"
 riverctl spawn "zen-browser"
@@ -55,15 +60,18 @@ riverctl input "pointer-*" natural-scroll enabled
 ### ─── KEYBINDINGS ──────────────────────────────────────────
 
 riverctl map normal Super F toggle-float
-#cycle through background in order
-riverctl map normal Super B spawn "
-    idx=\$( cat \"\$HOME/.cache/swaybg\" 2>/dev/null || echo 1 )
-    count=\$(ls -1 \$HOME/Pictures/Background/background*.jpg | wc -l)
-    next=\$(( (idx % count) + 1 ))
-    echo \$next > \$HOME/.cache/swaybg
-    pkill -x swaybg 2>/dev/null
-    sleep 0.1
-    swaybg -i \"\$HOME/Pictures/Background/background\${next}.jpg\" &"
+riverctl map normal Super B "spawn bash -c '
+    files=(\"\$HOME/Pictures/Background/background\"*.jpg)
+    idx=\$(cat \"\$HOME/.cache/background\" 2>/dev/null || echo 0)
+    idx=\$(( idx % \${#files[@]} ))
+    idx=\$(( idx + 1 ))
+    [[ \$idx -gt \${#files[@]} ]] && idx=1  # Overflow protection
+    swww img \"\${files[idx-1]}\" \\
+        --transition-type=fade \\
+        --transition-fps=90 \\
+        --transition-duration=1.0
+    echo \"\$idx\" > \"\$HOME/.cache/background\"  # Store as 1-based
+'"
 
 ## ── Apps ─────────────────────────────────────
 # Toggle launcher-mode (top bar + bottom bar + fuzzel)

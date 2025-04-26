@@ -74,6 +74,7 @@
 - `zed`: High-performance text editor (Zed Editor).
 
 ### Web Browsers
+- `chromium`: Open-source web browser, the base for Google Chrome.
 - `firefox`: Open-source web browser by Mozilla.
 - `qutebrowser`: Keyboard-oriented web browser with Vim-like keybindings.
 - `zen-browser-bin`: Custom browser (likely a Firefox fork).

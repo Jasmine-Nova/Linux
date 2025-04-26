@@ -31,10 +31,9 @@ riverctl spawn "
         swww img \"\${files[idx-1]}\" \\
             --transition-type=fade \\
             --transition-fps=90 \\
-            --transition-duration=1.0
+            --transition-duration=1
         sleep 300 & wait
-    done
-"
+    done"
 riverctl spawn "mako &"
 riverctl spawn "wl-paste --watch clipman store &"
 riverctl spawn "zen-browser"
@@ -60,18 +59,16 @@ riverctl input "pointer-*" natural-scroll enabled
 ### ─── KEYBINDINGS ──────────────────────────────────────────
 
 riverctl map normal Super F toggle-float
-riverctl map normal Super B "spawn bash -c '
-    files=(\"\$HOME/Pictures/Background/background\"*.jpg)
-    idx=\$(cat \"\$HOME/.cache/background\" 2>/dev/null || echo 0)
-    idx=\$(( idx % \${#files[@]} ))
-    idx=\$(( idx + 1 ))
-    [[ \$idx -gt \${#files[@]} ]] && idx=1  # Overflow protection
-    swww img \"\${files[idx-1]}\" \\
+riverctl map normal Super B spawn "\
+    foles=(\"\$HOME/Pictures/Background/background\"*.jpg)
+    idx=\$(cat \"\$HOME/.cache/background\" 2>/dev/null || echo 1)
+    idx=\$(( ( idx % \${#foles[@]} ) + 1 ))
+    swww img \"\${foles[idx-1]}\" \\
         --transition-type=fade \\
         --transition-fps=90 \\
-        --transition-duration=1.0
-    echo \"\$idx\" > \"\$HOME/.cache/background\"  # Store as 1-based
-'"
+        --transition-duration=1
+    echo \"\$idx\" > \"\$HOME/.cache/background\"
+"
 
 ## ── Apps ─────────────────────────────────────
 # Toggle launcher-mode (top bar + bottom bar + fuzzel)

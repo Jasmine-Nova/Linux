@@ -34,6 +34,7 @@
 - `waybar`: Customizable status bar for Wayland compositors.
 - `waylock`: Simple screen locker for Wayland.
 - `wf-recorder`: Screen recording utility for Wayland.
+- `wl-clipboard`: Clipboard utilities for Wayland.
 - `wlr-randr`: Utility to manage Wayland output settings (e.g., resolution, scaling).
 - `xdg-desktop-portal-wlr`: XDG Desktop Portal backend for Wayland.
 
@@ -97,7 +98,6 @@
 - `fuse3`: Filesystem in Userspace (FUSE) for mounting filesystems.
 - `man-db`: Manual page database.
 - `man-pages`: Linux manual pages.
-- `wl-clipboard`: Clipboard utilities for Wayland.
 - `xdg-utils`: Utilities for desktop integration (e.g., opening URLs).
 - `plasma-desktop`: Provides desktop environment utilities.
 

@@ -89,8 +89,6 @@
 ### Gaming and Entertainment
 - `prismlauncher`: Minecraft launcher with mod support.
 - `steam`: Gaming platform by Valve.
-
-### Communication
 - `vesktop-bin`: Desktop client for Discord (likely a custom build).
 
 ### Miscellaneous Tools

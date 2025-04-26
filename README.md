@@ -21,7 +21,7 @@
 - `speedtest-cli`: Command-line tool to test internet speed.
 - `ufw`: Uncomplicated Firewall for managing firewall rules.
 
-### Window Manager and Wayland Utilities
+### Wayland Compositors and Utilities
 - `river`: Dynamic tiling Wayland compositor (your window manager).
 - `fuzzel`: Wayland-native application launcher.
 - `ghostty`: Terminal emulator.

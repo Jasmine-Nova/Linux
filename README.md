@@ -92,7 +92,6 @@
 - `vesktop-bin`: Desktop client for Discord (likely a custom build).
 
 ### Miscellaneous Tools
-- `flameshot`: Screenshot tool with annotation features.
 - `fuse3`: Filesystem in Userspace (FUSE) for mounting filesystems.
 - `man-db`: Manual page database.
 - `man-pages`: Linux manual pages.

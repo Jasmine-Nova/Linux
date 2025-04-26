@@ -1,7 +1,12 @@
 #!/bin/sh
 
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+systemctl --user import-environment PATH XDG_SESSION_TYPE XDG_SESSION_DESKTOP WAYLAND_DISPLAY
+
 ### ─── LAYOUT ─────────────────────────────────────────
 
+wlr-randr --output eDP-1 --scale 1.25
+wlr-randr --output HDMI-A-1 --scale 1.0
 riverctl output-layout rivertile
 rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.625 &
 riverctl rule-add -app-id '*' float
@@ -76,21 +81,31 @@ riverctl map normal Super T spawn ghostty
 riverctl map normal Super E spawn zeditor
 
 ## ── Screenshot ──────────────────────────────
-riverctl map normal None Print spawn "sh -c 'grim \
-    -g \"\$(slurp -w 0)\" - | swappy -f -
-    -o ~/Pictures/screenshot-\$(date +%F_%H-%M-%S).png'"
+
+# Copy-only (no file saved)
+riverctl map normal None Print spawn "\
+    grim -g \"\$(slurp -w 0)\" - | wl-copy && \
+    notify-send \"Screenshot copied to clipboard\"\
+"
+# Save + copy
+riverctl map normal Shift Print spawn "\
+    out=~/Pictures/screenshot-\$(date +%F_%H-%M-%S).png && \
+    grim -g \"\$(slurp -w 0)\" \"\$out\" && \
+    wl-copy < \"\$out\" && \
+    notify-send \"Screenshot saved to \$out and copied to clipboard\"\
+"
 
 ## ── Screen Recording ──────────────────────────
 # Full screen, no audio
-riverctl map normal Super M spawn "sh -c 'wf-recorder \
-    -f ~/Videos/recording_\$(date +%Y%m%d_%H%M%S).mp4'"
+riverctl map normal Super M spawn "wf-recorder \
+    -f ~/Videos/recording_\$(date +%Y%m%d_%H%M%S).mp4"
 # Selected area, no audio
-riverctl map normal Super+Shift M spawn "sh -c 'wf-recorder \
-    -g \"\$(slurp)\" -f ~/Videos/recording_\$(date +%Y%m%d_%H%M%S).mp4'"
+riverctl map normal Super+Shift M spawn "wf-recorder \
+    -g \"\$(slurp)\" -f ~/Videos/recording_\$(date +%Y%m%d_%H%M%S).mp4"
 # Selected area with audio
-riverctl map normal Super R spawn "sh -c 'wf-recorder \
+riverctl map normal Super R spawn "wf-recorder \
     -g \"\$(slurp)\" -a alsa_output.pci-0000_04_00.6.analog-stereo.monitor
-    -f ~/Videos/recording-with-audio-\$(date +%F_%H-%M-%S).mp4'"
+    -f ~/Videos/recording-with-audio-\$(date +%F_%H-%M-%S).mp4"
 # Stop recording
 riverctl map normal Super+Shift R spawn "pkill -INT wf-recorder"
 

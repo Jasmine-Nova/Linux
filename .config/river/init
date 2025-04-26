@@ -13,8 +13,6 @@ riverctl rule-add -app-id '*' float
 riverctl rule-add -title 'Zen Browser' no-float
 riverctl rule-add -app-id "*zed*" no-float
 riverctl rule-add -app-id "*ghostty*" no-float
-riverctl rule-add -app-id "*vesktop*" no-float
-
 
 ### ─── Startup ──────────────────────────────────────────────
 

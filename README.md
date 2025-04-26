@@ -28,9 +28,9 @@
 - `grim`: Screenshot tool for Wayland.
 - `mako`: Notification daemon for Wayland.
 - `slurp`: Tool to select a region on Wayland for screenshots.
-- `swaybg`: Wallpaper tool for Wayland compositors.
 - `swayidle`: Idle management daemon for Wayland.
 - `swaylock`: Screen locker for Wayland.
+- `swww`: Wallpaper tool for Wayland compositors.
 - `waybar`: Customizable status bar for Wayland compositors.
 - `waylock`: Simple screen locker for Wayland.
 - `wf-recorder`: Screen recording utility for Wayland.

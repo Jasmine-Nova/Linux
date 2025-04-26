@@ -1,204 +1,112 @@
 # Linux
 dotfiles and such
 
-## 📦 Installed Packages
+## 📦 Installed Packages/Applications
 
-### 1. Boot & Firmware
-- `amd-ucode`
-- `linux`
-- `linux-firmware`
-- `efibootmgr`
-- `grub`
-- `os-prober`
+### System and Base Utilities
+- **amd-ucode**: Microcode updates for AMD CPUs.
+- **base**: Minimal package set for a basic Arch Linux system.
+- **base-devel**: Essential tools for building software (e.g., `gcc`, `make`).
+- **efibootmgr**: Tool to manage UEFI boot entries.
+- **grub**: GRUB bootloader for booting the system.
+- **linux**: Linux kernel.
+- **linux-firmware**: Firmware files for hardware support.
+- **os-prober**: Utility to detect other operating systems for GRUB.
+- **sudo**: Allows users to run commands as superuser.
 
-### 2. Hardware Control & Power Management
-- `asusctl`
-- `brightnessctl`
-- `power-profiles-daemon`
+### System Management and Monitoring
+- **asusctl**: Utilities for ASUS hardware control (e.g., fan curves, keyboard lighting).
+- **brightnessctl**: Tool to control screen brightness.
+- **btop**: Resource monitor for system performance (CPU, memory, etc.).
+- **fastfetch**: System information tool for displaying hardware/software details.
+- **inxi**: System information script for hardware and software details.
+- **power-profiles-daemon**: Manages power profiles for performance/battery optimization.
+- **speedtest-cli**: Command-line tool to test internet speed.
+- **ufw**: Uncomplicated Firewall for managing firewall rules.
 
-### 3. System Core & Services
-- `base`
-- `base-devel`
-- `sudo`
-- `networkmanager`
-- `ufw`
-- `pipewire`
-- `pipewire-alsa`
-- `pipewire-pulse`
-- `wireplumber`
-- `xdg-utils`
-- `xdg-desktop-portal-wlr`
-- `greetd`
-- `greetd-tuigreet`
+### Window Manager and Wayland Utilities
+- **river**: Dynamic tiling Wayland compositor (your window manager).
+- **fuzzel**: Wayland-native application launcher.
+- **ghostty**: Terminal emulator.
+- **grim**: Screenshot tool for Wayland.
+- **mako**: Notification daemon for Wayland.
+- **slurp**: Tool to select a region on Wayland for screenshots.
+- **swaybg**: Wallpaper tool for Wayland compositors.
+- **swayidle**: Idle management daemon for Wayland.
+- **swaylock**: Screen locker for Wayland.
+- **waybar**: Customizable status bar for Wayland compositors.
+- **waylock**: Simple screen locker for Wayland.
+- **wf-recorder**: Screen recording utility for Wayland.
+- **wlr-randr**: Utility to manage Wayland output settings (e.g., resolution, scaling).
+- **xdg-desktop-portal-wlr**: XDG Desktop Portal backend for Wayland.
 
-### 4. Fonts
-- `noto-fonts`
-- `noto-fonts-emoji`
-- `ttf-dejavu`
-- `ttf-jetbrains-mono`
-- `ttf-nerd-fonts-symbols`
+### Desktop Environment Components
+- **bluedevil**: KDE Bluetooth management tool.
+- **dolphin**: KDE file manager.
+- **kitty**: GPU-accelerated terminal emulator (alternative to `ghostty`).
+- **plasma-desktop**: KDE Plasma desktop environment components.
+- **okular**: KDE document viewer (PDFs, eBooks, etc.).
 
-### 5. Development & Programming
-- `git`
-- `neovim`
-- `zed`
-- `paru`
-- `ripgrep`
-- `fd`
-- `bat`
+### Networking and Connectivity
+- **bluez-utils**: Utilities for Bluetooth management.
+- **networkmanager**: Network management daemon for easy connectivity.
+- **wget**: Command-line tool to download files from the web.
 
-### 6. Terminal & Shell Utilities
-- `btop`
-- `eza`
-- `fastfetch`
-- `ghostty`
-- `inxi`
-- `rsync`
-- `speedcrunch`
-- `speedtest-cli`
-- `wget`
+### Audio and Video
+- **ffmpeg**: Multimedia framework for audio/video processing.
+- **gst-libav**: GStreamer plugin for multimedia playback.
+- **mpv**: Lightweight media player.
+- **obs-studio**: Software for video recording and live streaming.
+- **pamixer**: Command-line mixer for PulseAudio.
+- **pavucontrol**: PulseAudio volume control GUI.
+- **pipewire**: Audio and video server for modern Linux systems.
+- **pipewire-alsa**: PipeWire ALSA compatibility layer.
+- **pipewire-pulse**: PipeWire PulseAudio compatibility layer.
+- **qpwgraph**: Graph-based PipeWire configuration tool.
+- **vlc**: Versatile media player.
+- **wireplumber**: Session manager for PipeWire.
 
-### 7. Clipboard & Launchers
-- `wl-clipboard`
-- `wofi`
-- `fuzzel`
+### Productivity and Development Tools
+- **bat**: Cat clone with syntax highlighting and Git integration.
+- **eza**: Modern replacement for `ls` with enhanced features.
+- **fd**: Simple, fast alternative to `find`.
+- **git**: Version control system.
+- **neovim**: Extensible text editor (modern Vim fork).
+- **paru**: AUR helper for installing packages from the Arch User Repository.
+- **ripgrep**: Fast search tool for code and files.
+- **rsync**: File synchronization and transfer tool.
+- **speedcrunch**: High-precision scientific calculator.
+- **unzip**: Utility to extract ZIP archives.
+- **zed**: High-performance text editor (Zed Editor).
 
-### 8. File Management & Archives
-- `dolphin`
-- `fuse3`
-- `unzip`
+### Web Browsers
+- **firefox**: Open-source web browser by Mozilla.
+- **qutebrowser**: Keyboard-oriented web browser with Vim-like keybindings.
+- **zen-browser-bin**: Custom browser (likely a Firefox fork).
 
-### 9. Audio Services & Control
-- `pipewire`
-- `pipewire-alsa`
-- `pipewire-pulse`
-- `wireplumber`
-- `pavucontrol`
-- `pamixer`
+### Fonts and Themes
+- **noto-fonts**: Google Noto fonts for broad language support.
+- **noto-fonts-emoji**: Emoji fonts from the Noto project.
+- **ttf-dejavu**: DejaVu font family for general use.
+- **ttf-jetbrains-mono**: Monospace font for developers by JetBrains.
+- **ttf-nerd-fonts-symbols**: Symbols and icons for Nerd Fonts.
 
-### 10. Screenshots & Screen Recording
-- `flameshot`
-- `grim`
-- `slurp`
-- `wf-recorder`
+### Gaming and Entertainment
+- **prismlauncher**: Minecraft launcher with mod support.
+- **steam**: Gaming platform by Valve.
 
-### 11. Notifications & OSD
-- `mako`
+### Communication
+- **vesktop-bin**: Desktop client for Discord (likely a custom build).
 
-### 12. Multimedia & Video
-- `ffmpeg`
-- `gst-libav`
-- `mpv`
-- `vlc`
-- `obs-studio`
+### Miscellaneous Tools
+- **flameshot**: Screenshot tool with annotation features.
+- **fuse3**: Filesystem in Userspace (FUSE) for mounting filesystems.
+- **man-db**: Manual page database.
+- **man-pages**: Linux manual pages.
+- **wl-clipboard**: Clipboard utilities for Wayland.
+- **xdg-utils**: Utilities for desktop integration (e.g., opening URLs).
 
-### 13. Web Browsers
-- `firefox`
-- `qutebrowser`
-- `zen-browser-bin`
-
-### 14. Document & Reading
-- `okular`
-
-### 15. Graphical Environments & Window Management
-- `plasma-desktop`
-- `river`
-- `waybar`
-- `waylock`
-- `swaybg`
-- `swayidle`
-- `wlr-randr`
-
-### 16. Bluetooth
-- `bluez-utils`
-- `bluedevil`
-
-### 17. Gaming & Launchers
-- `steam`
-- `prismlauncher`
-
-
-# apps installed:
-
-amd-ucode
-asusctl
-base
-base-devel
-bat
-bluedevil
-bluez-utils
-brightnessctl
-btop
-dolphin
-efibootmgr
-eza
-fastfetch
-fd
-ffmpeg
-firefox
-flameshot
-fuse3
-fuzzel
-ghostty
-git
-greetd
-greetd-tuigreet
-grim
-grub
-gst-libav
-inxi
-kitty
-linux
-linux-firmware
-mako
-man-db
-man-pages
-mpv
-neovim
-networkmanager
-noto-fonts
-noto-fonts-emoji
-obs-studio
-okular
-os-prober
-pamixer
-paru
-pavucontrol
-pipewire
-pipewire-alsa
-pipewire-pulse
-plasma-desktop
-power-profiles-daemon
-prismlauncher
-qpwgraph
-qutebrowser
-ripgrep
-river
-rsync
-slurp
-speedcrunch
-speedtest-cli
-steam
-sudo
-swaybg
-swayidle
-swaylock
-ttf-dejavu
-ttf-jetbrains-mono
-ttf-nerd-fonts-symbols
-ufw
-unzip
-vesktop-bin
-vlc
-waybar
-waylock
-wf-recorder
-wget
-wireplumber
-wl-clipboard
-wlr-randr
-xdg-desktop-portal-wlr
-xdg-utils
-zed
-zen-browser-bin
+### Display Manager
+- **greetd**: Lightweight display manager.
+- **greetd-tuigreet**: TUI greeter for `greetd`.
 

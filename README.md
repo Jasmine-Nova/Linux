@@ -1,5 +1,4 @@
 ## 📦 Installed Packages/Applications
-## Installed Packages/Applications
 
 ### System and Base Utilities
 - `amd-ucode`: Microcode updates for AMD CPUs.

@@ -89,7 +89,6 @@
 ### Gaming and Entertainment
 - `prismlauncher`: Minecraft launcher with mod support.
 - `steam`: Gaming platform by Valve.
-- `vesktop-bin`: Desktop client for Discord (likely a custom build).
 
 ### Miscellaneous Tools
 - `fuse3`: Filesystem in Userspace (FUSE) for mounting filesystems.

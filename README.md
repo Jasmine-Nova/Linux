@@ -77,7 +77,7 @@
 - `chromium`: Open-source web browser, the base for Google Chrome.
 - `firefox`: Open-source web browser by Mozilla.
 - `qutebrowser`: Keyboard-oriented web browser with Vim-like keybindings.
-- `zen-browser-bin`: Custom browser (likely a Firefox fork).
+- `zen-browser-bin`: Firefox fork custom browser.
 
 ### Fonts and Themes
 - `noto-fonts`: Google Noto fonts for broad language support.

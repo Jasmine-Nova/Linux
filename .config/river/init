@@ -1,12 +1,9 @@
 #!/bin/sh
 
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-systemctl --user import-environment PATH XDG_SESSION_TYPE XDG_SESSION_DESKTOP WAYLAND_DISPLAY
-
 ### ─── LAYOUT ─────────────────────────────────────────
 
 wlr-randr --output eDP-1 --scale 1.25
-wlr-randr --output HDMI-A-1 --scale 1.0
+wlr-randr --output HDMI-A-1 --scale 5.0
 riverctl output-layout rivertile
 rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.625 &
 riverctl rule-add -app-id '*' float
@@ -16,21 +13,22 @@ riverctl rule-add -app-id "*ghostty*" no-float
 
 ### ─── Startup ──────────────────────────────────────────────
 
+riverctl spawn "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+riverctl spawn "systemctl --user import-environment PATH XDG_SESSION_TYPE XDG_SESSION_DESKTOP WAYLAND_DISPLAY"
 #shuffle background image
 riverctl spawn "ram-alert.sh"
-riverctl spawn "
-    files=(\"\$HOME/Pictures/Background/background\"*.jpg)
-    [[ \${#files[@]} -eq 0 ]] && { notify-send -u critical \"No backgrounds found\"; exit 1; }
-    trap \"exit 0\" TERM INT
-    swww-daemon
+riverctl spawn "\
+    swww-daemon &
     while true; do
-        idx=\$(( (RANDOM % \${#files[@]}) + 1 ))
-        echo \"\$idx\" > \"\$HOME/.cache/background\"
-        swww img \"\${files[idx-1]}\" \\
-            --transition-type=fade \\
-            --transition-fps=90 \\
-            --transition-duration=1
-        sleep 300 & wait
+        idx=\$(( RANDOM % 9 ))
+        sleep 1
+        echo \"\$idx\" > \"\$HOME/.cache/current_background\"
+        sleep 1
+        swww img \$HOME/Pictures/Background/\$(( RANDOM % 9 )).jpg \
+            --transition-type grow \
+            --transition-fps 90 \
+            --transition-duration 1
+        sleep 298
     done"
 riverctl spawn "mako &"
 riverctl spawn "wl-paste --watch clipman store &"
@@ -58,15 +56,15 @@ riverctl input "pointer-*" natural-scroll enabled
 
 riverctl map normal Super F toggle-float
 riverctl map normal Super B spawn "\
-    foles=(\"\$HOME/Pictures/Background/background\"*.jpg)
-    idx=\$(cat \"\$HOME/.cache/background\" 2>/dev/null || echo 1)
-    idx=\$(( ( idx % \${#foles[@]} ) + 1 ))
-    swww img \"\${foles[idx-1]}\" \\
-        --transition-type=fade \\
-        --transition-fps=90 \\
-        --transition-duration=1
-    echo \"\$idx\" > \"\$HOME/.cache/background\"
-"
+    current=\$(cat ~/.cache/current_background 2>/dev/null || echo 0)
+    sleep 0.1
+    next=\$(( (current + 1) % 9 ))
+    sleep 0.1
+    echo "\$next" > ~/.cache/current_background
+    swww img \$HOME/Pictures/Background/\${next}.jpg \
+        --transition-type grow \
+        --transition-fps 90 \
+        --transition-duration 1"
 
 ## ── Apps ─────────────────────────────────────
 # Toggle launcher-mode (top bar + bottom bar + fuzzel)
@@ -88,15 +86,13 @@ riverctl map normal Super E spawn zeditor
 # Copy-only (no file saved)
 riverctl map normal None Print spawn "\
     grim -g \"\$(slurp -w 0)\" - | wl-copy && \
-    notify-send \"Screenshot copied to clipboard\"\
-"
+    notify-send \"Screenshot copied to clipboard\""
 # Save + copy
 riverctl map normal Shift Print spawn "\
     out=~/Pictures/screenshot-\$(date +%F_%H-%M-%S).png && \
     grim -g \"\$(slurp -w 0)\" \"\$out\" && \
     wl-copy < \"\$out\" && \
-    notify-send \"Screenshot saved to \$out and copied to clipboard\"\
-"
+    notify-send \"Screenshot saved to \$out and copied to clipboard\""
 
 ## ── Screen Recording ──────────────────────────
 # Full screen, no audio
@@ -148,8 +144,8 @@ riverctl map normal None XF86AudioLowerVolume   spawn "wpctl set-volume @DEFAULT
 riverctl map normal None XF86AudioRaiseVolume   spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
 
 ## ─── Brightness ─────────────────────────────────────────────────────────
-riverctl map normal None XF86MonBrightnessUp    spawn "brightnessctl set 5%+"
-riverctl map normal None XF86MonBrightnessDown  spawn "brightnessctl set 5%-"
+riverctl map normal None XF86MonBrightnessUp    spawn "brightnessctl set 1%+"
+riverctl map normal None XF86MonBrightnessDown  spawn "brightnessctl set 1%-"
 
 ## ─── Media Playback ──────────────────────────────────────────────────────
 riverctl map normal None XF86AudioPlay          spawn "playerctl play-pause"

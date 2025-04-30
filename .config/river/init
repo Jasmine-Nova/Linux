@@ -21,11 +21,15 @@ riverctl spawn "\
     trap \"kill 0\" EXIT TERM INT
     swww-daemon &
     while true; do
+        current=\$(cat ~/.cache/current_background 2>/dev/null || echo 0)
         idx=\$(( RANDOM % 9 ))
+        while [ "\$idx" -eq "\$current" ]; do
+            idx=\$((RANDOM % 9))
+        done
         sleep 1
         echo \"\$idx\" > \"\$HOME/.cache/current_background\"
         sleep 1
-        swww img \$HOME/Pictures/Background/\$(( RANDOM % 9 )).jpg \
+        swww img \$HOME/Pictures/Background/\$(( RANDOM % 9 )).{jpg,jpeg,png,gif,webp} \
             --transition-type grow \
             --transition-fps 90 \
             --transition-duration 1
@@ -62,7 +66,7 @@ riverctl map normal Super B spawn "\
     next=\$(( (current + 1) % 9 ))
     sleep 0.1
     echo "\$next" > ~/.cache/current_background
-    swww img \$HOME/Pictures/Background/\${next}.jpg \
+    swww img \$HOME/Pictures/Background/\${next}.{jpg,jpeg,png,gif,webp} \
         --transition-type grow \
         --transition-fps 90 \
         --transition-duration 1"
@@ -79,7 +83,7 @@ riverctl map normal Super Space spawn "\
         fuzzel
         pkill -x waybar
     fi"
-riverctl map normal Super T spawn ghostty
+riverctl map -release normal Super T spawn ghostty
 riverctl map normal Super E spawn zeditor
 
 ## ── Screenshot ──────────────────────────────
@@ -98,43 +102,44 @@ riverctl map normal Shift Print spawn "\
 ## ── Screen Recording ──────────────────────────
 # Full screen, no audio
 riverctl map normal Super M spawn "wf-recorder \
-    -F scale_vaapi=format=nv12:out_range=full \
-    -r 60 \
-    -c hevc_vaapi \
-    -d /dev/dri/renderD128 \
-    -p qp=24 \
-    -m mp4 \
+    --filter scale_vaapi=format=nv12:out_range=full \
+    --framerate 60 \
+    --codec hevc_vaapi \
+    --device /dev/dri/renderD128 \
+    --codec-param qp=24 \
+    --muxer mp4 \
     -f ~/Videos/record_\$(date +%Y%m%d_%H%M%S)_wf.mp4"
 # Selected area, no audio
 riverctl map normal Super+Shift M spawn "wf-recorder \
-    -F scale_vaapi=format=nv12:out_range=full \
-    -g \"\$(slurp)\" \
-    -r 60 \
-    -c hevc_vaapi \
-    -d /dev/dri/renderD128 \
-    -p qp=24 \
-    -m mp4 \
+    --filter scale_vaapi=format=nv12:out_range=full \
+    --geometry \"\$(slurp)\" \
+    --framerate 60 \
+    --codec hevc_vaapi \
+    --device /dev/dri/renderD128 \
+    --codec-param qp=24 \
+    --muxer mp4 \
     -f ~/Videos/record_\$(date +%Y%m%d_%H%M%S)_wf.mp4"
 # Fullscreen with audio
 riverctl map normal Super R spawn "wf-recorder \
-    -F scale_vaapi=format=nv12:out_range=full \
-    -a alsa_output.pci-0000_04_00.6.analog-stereo.monitor \
-    -r 60 \
-    -c hevc_vaapi \
-    -d /dev/dri/renderD128 \
-    -p qp=24 \
-    -m mp4 \
+    --filter scale_vaapi=format=nv12:out_range=full \
+    --geometry \"0,0 2880x1800\" \
+    --audio alsa_output.pci-0000_04_00.6.analog-stereo.monitor \
+    --framerate 60 \
+    --coec hevc_vaapi \
+    --device /dev/dri/renderD128 \
+    --codec-param qp=24 \
+    --muxer mp4 \
     -f ~/Videos/record_\$(date +%Y%m%d_%H%M%S)_wf.mp4"
 # Selected area with audio
 riverctl map normal Super+Shift R spawn "wf-recorder \
-    -F scale_vaapi=format=nv12:out_range=full \
-    -a alsa_output.pci-0000_04_00.6.analog-stereo.monitor \
-    -g \"\$(slurp)\" \
-    -r 60 \
-    -c hevc_vaapi \
-    -d /dev/dri/renderD128 \
-    -p qp=24 \
-    -m mp4 \
+    --filter scale_vaapi=format=nv12:out_range=full \
+    --audio alsa_output.pci-0000_04_00.6.analog-stereo.monitor \
+    --geometry \"\$(slurp)\" \
+    --framerate 60 \
+    --codec hevc_vaapi \
+    --device /dev/dri/renderD128 \
+    --codec-param qp=24 \
+    --muxer mp4 \
     -f ~/Videos/record_\$(date +%Y%m%d_%H%M%S)_wf.mp4"
 # Stop recording
 riverctl map normal Super S spawn "pkill -INT wf-recorder"

@@ -83,7 +83,7 @@ riverctl map normal Super Space spawn "\
         fuzzel
         pkill -x waybar
     fi"
-riverctl map -release normal Super T spawn ghostty
+riverctl map normal Super T spawn ghostty
 riverctl map normal Super E spawn zeditor
 
 ## ── Screenshot ──────────────────────────────
@@ -103,6 +103,7 @@ riverctl map normal Shift Print spawn "\
 # Full screen, no audio
 riverctl map normal Super M spawn "wf-recorder \
     --filter scale_vaapi=format=nv12:out_range=full \
+    --geometry 0,0 2880x1800 \
     --framerate 60 \
     --codec hevc_vaapi \
     --device /dev/dri/renderD128 \
@@ -122,10 +123,10 @@ riverctl map normal Super+Shift M spawn "wf-recorder \
 # Fullscreen with audio
 riverctl map normal Super R spawn "wf-recorder \
     --filter scale_vaapi=format=nv12:out_range=full \
-    --geometry \"0,0 2880x1800\" \
     --audio alsa_output.pci-0000_04_00.6.analog-stereo.monitor \
+    --geometry 0,0 2880x1800 \
     --framerate 60 \
-    --coec hevc_vaapi \
+    --codec hevc_vaapi \
     --device /dev/dri/renderD128 \
     --codec-param qp=24 \
     --muxer mp4 \

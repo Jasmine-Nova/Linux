@@ -9,25 +9,33 @@
   "margin-left": "auto",
   "margin-right": "auto",
   "spacing": 4,
-  "modules-left": ["cpu", "memory", "temperature", "disk"],
+  "modules-left": ["cpu", "custom/gpu", "memory", "temperature", "disk"],
   "modules-center": ["clock"],
-  "modules-right": ["network", "pulseaudio", "upower", "tray"],
+  "modules-right": ["backlight", "network", "pulseaudio", "upower", "tray"],
 
   "cpu": {
     "align": "center",
     "format": "  {usage}%",
     "tooltip-format": "User: {user}% ↷ Sys: {system}%",
-    "interval": 2
+    "interval": 1
+  },
+  "custom/gpu": {
+    "align": "center",
+    "format": " {text}%",
+    "exec": "cat /sys/class/drm/card1/device/gpu_busy_percent",
+    "interval": 1
   },
   "memory": {
     "align": "center",
-    "format": " {percentage}%",
-    "tooltip-format": "{used}MiB / {total}MiB ({percentage}%)"
+    "format": " {percentage}%",
+    "tooltip-format": "{used}MiB / {total}MiB ({percentage}%)",
+    "interval": 1
   },
   "temperature": {
     "align": "center",
     "format": " {temperatureC}°C",
-    "critical-threshold": 80
+    "critical-threshold": 80,
+    "interval": 1
   },
   "disk": {
     "path": "/",
@@ -36,7 +44,15 @@
   },
   "clock": {
     "format": " {:%H:%M}",
-    "align": "center"
+    "align": "center",
+    "interval": 1
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃠"],
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "interval": 5
   },
   "network": {
     "align": "center",

@@ -1,0 +1,26 @@
+########################################
+## global settings
+########################################
+
+# auto-expire every notification after 5000 ms (5 s)
+default-timeout=5000
+
+# let Mako use the app’s own timeout hint if it provides one;
+# set to 1 (true) so notifications with higher urgency stick
+ignore-timeout=0
+
+########################################
+## per-urgency overrides (optional)
+########################################
+
+[urgency=low]
+# low-urgency notifications live for 3 s
+default-timeout=3000
+
+[urgency=normal]
+# normal (default) live for 5 s
+default-timeout=5000
+
+[urgency=critical]
+# critical never auto-expire—you must click or dismiss
+default-timeout=0

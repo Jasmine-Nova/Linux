@@ -12,7 +12,9 @@ riverctl rule-add -app-id "*zed*" no-float
 riverctl rule-add -app-id "*ghostty*" no-float
 
 ### ─── Startup ──────────────────────────────────────────────
-
+riverctl spawn "swayidle -w \
+    timeout 300 'vlc --intf dummy --fullscreen --loop ~/Pictures/screensaver.gif &' \
+    resume 'pkill vlc' &"
 riverctl spawn "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 riverctl spawn "systemctl --user import-environment PATH XDG_SESSION_TYPE XDG_SESSION_DESKTOP WAYLAND_DISPLAY"
 #shuffle background image
@@ -196,9 +198,11 @@ riverctl map normal None XF86Display              spawn wlr-randr
 
 ### ─── Lock screen & idle behavior ──────────────────────────────────────
 swayidle -w \
-    timeout 270 'brightnessctl set 10%' \
-    timeout 300 'swaylock -f -c 000000' \
-    timeout 600 'systemctl suspend' \
+    timeout 180  'brightnessctl set 5%' \
+    timeout 300  'vlc --intf dummy --fullscreen --loop ~/Pictures/screensaver.gif &' \
+    resume      'pkill vlc' \
+    timeout 600  'swaylock -f -c 000000' \
+    timeout 900  'systemctl suspend' \
     before-sleep 'swaylock -f' &
 
 # riveridle not yet part of official river package

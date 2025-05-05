@@ -60,6 +60,7 @@
 
 ### Productivity and Development Tools
 - `bat`: Cat clone with syntax highlighting and Git integration.
+- `broot`: Interactive directory navigation tool with a tree-like view.
 - `dolphin`: File manager.
 - `eza`: Modern replacement for `ls` with enhanced features.
 - `fd`: Simple, fast alternative to `find`.
@@ -72,12 +73,13 @@
 - `rsync`: File synchronization and transfer tool.
 - `speedcrunch`: High-precision scientific calculator.
 - `unzip`: Utility to extract ZIP archives.
+- `xplr`: Fast and lightweight file explorer with a TUI interface.
 - `zed`: High-performance text editor (Zed Editor).
 
 ### Web Browsers
 - `chromium`: Open-source web browser, the base for Google Chrome.
 - `firefox`: Open-source web browser by Mozilla.
-- `floorp`: Gecko-based fork of Firefox ESR.
+- `floorp`: Gecko-based fork of Firefox ESR with enhanced customization.
 - `qutebrowser`: Keyboard-oriented web browser with Vim-like keybindings.
 - `zen-browser-bin`: Firefox fork custom browser.
 

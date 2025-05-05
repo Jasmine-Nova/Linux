@@ -77,6 +77,7 @@
 ### Web Browsers
 - `chromium`: Open-source web browser, the base for Google Chrome.
 - `firefox`: Open-source web browser by Mozilla.
+- `floorp`: Gecko-based fork of Firefox ESR.
 - `qutebrowser`: Keyboard-oriented web browser with Vim-like keybindings.
 - `zen-browser-bin`: Firefox fork custom browser.
 

@@ -7,11 +7,12 @@
 riverctl output-layout rivertile
 rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.625 &
 riverctl rule-add -app-id '*' float
-riverctl rule-add -title 'Zen Browser' no-float
-riverctl rule-add -app-id "*zed*" no-float
-riverctl rule-add -app-id "*ghostty*" no-float
+riverctl rule-add -app-id 'zen.desktop' no-float
+riverctl rule-add -app-id 'dev.zed.Zed.desktop' no-float
+riverctl rule-add -app-id 'com.mitchellh.ghostty.desktop' no-float
 
 ### ─── Startup ──────────────────────────────────────────────
+
 riverctl spawn "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 riverctl spawn "systemctl --user import-environment PATH XDG_SESSION_TYPE XDG_SESSION_DESKTOP WAYLAND_DISPLAY"
 riverctl spawn "ram-alert.sh"
@@ -42,7 +43,7 @@ riverctl spawn "\
     done"
 riverctl spawn "mako &"
 riverctl spawn "wl-paste --watch clipman store &"
-riverctl spawn "zen-browser"
+riverctl spawn "zen-browser --enable-features=UseOzonePlatform --ozone-platform=wayland"
 
 ### ─── INPUT ───────────────────────────────────────────────────
 
@@ -55,10 +56,16 @@ riverctl set-cursor-warp on-focus-change
 riverctl xcursor-theme Breeze_Light 30
 riverctl set-repeat 30 300
 
-# Touch‑pad / pointer tweaks
-riverctl input "pointer-*" tap enabled
-riverctl input "pointer-*" tap-button-map lrm
-riverctl input "pointer-*" natural-scroll enabled
+# Touchpad settings
+riverctl input "*Touchpad" tap enabled
+riverctl input "*Touchpad" tap-button-map lrm
+riverctl input "*Touchpad" natural-scroll enabled
+riverctl input "*Touchpad" pointer-accel 0.50   # adjust 0.0–1.0 to taste
+
+
+# All mice settings
+riverctl input "*Mouse" pointer-accel 0.50   # adjust 0.0–1.0 to taste
+riverctl input "*Mouse" natural-scroll disabled
 
 # riverctl on-input "*" xkb_layout gb  # Uncomment if needed
 
@@ -206,3 +213,26 @@ riverctl map normal None XF86Display            spawn wlr-randr
 #  --suspend-cmd='systemctl suspend' \
 #  --lock-timeout=300 \
 #  --suspend-timeout=600 &
+
+for i in $(seq 1 5)
+do
+    tags=$((1 << ($i - 1)))
+
+    # Super+[1-9] to focus tag [0-8]
+    riverctl map normal Super $i set-focused-tags $tags
+
+    # Super+Shift+[1-9] to tag focused view with tag [0-8]
+    riverctl map normal Super+Shift $i set-view-tags $tags
+
+    # Super+Control+[1-9] to toggle focus of tag [0-8]
+    riverctl map normal Super+Control $i toggle-focused-tags $tags
+
+    # Super+Shift+Control+[1-9] to toggle tag [0-8] of focused view
+    riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+done
+
+# Super+0 to focus all tags
+# Super+Shift+0 to tag focused view with all tags
+all_tags=$(((1 << 32) - 1))
+riverctl map normal Super 0 set-focused-tags $all_tags
+riverctl map normal Super+Shift 0 set-view-tags $all_tags

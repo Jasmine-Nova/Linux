@@ -7,9 +7,9 @@
 riverctl output-layout rivertile
 rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.625 &
 riverctl rule-add -app-id '*' float
-riverctl rule-add -app-id 'zen.desktop' no-float
-riverctl rule-add -app-id 'dev.zed.Zed.desktop' no-float
-riverctl rule-add -app-id 'com.mitchellh.ghostty.desktop' no-float
+riverctl rule-add -app-id '*zen*' no-float
+riverctl rule-add -app-id '*zed*' no-float
+riverctl rule-add -app-id '*ghostty*' no-float
 
 ### ─── Startup ──────────────────────────────────────────────
 
